@@ -17,7 +17,7 @@ public class Evento {
 	        }
 		 
 		 if (postiTotali <= 0) {
-	            throw new IllegalArgumentException("Il numero di posti totali non puo essere negativo.");
+	            throw new IllegalArgumentException("Il numero di posti totali non puo essere 0 o negativo.");
 	        }
 		 
 		this.titolo = titolo;
@@ -50,28 +50,30 @@ public class Evento {
 	        return data.isBefore(LocalDate.now());
 	    }
 	  
-	  public void prenota() {
+	  public boolean prenota() {
 	        if (eventoPassato()) {
-	            System.out.println("Impossibile fare una prenotazione, l'evento è gia passato");
-	            return;
+	            System.err.println("Impossibile fare una prenotazione, l'evento è gia passato");
+	            return false;
 	        }
 	        if (postiPrenotati >= postiTotale) {
-	            System.out.println("Impossibile fare una prenotazione, i posti sono tutti occupati.");
-	            return;
+	            System.err.println("Impossibile fare una prenotazione, i posti sono tutti occupati.");
+	            return false;
 	        }
 	        postiPrenotati++;
+			return true;
 	    }
 	  
-	  public void disdici() {
+	  public boolean disdici() {
 	        if (eventoPassato()) {
-	            System.out.println("Impossibile disdire la prenotazione,  l'evento è già passato.");
-	            return;
+	            System.err.println("Impossibile disdire la prenotazione,  l'evento è già passato.");
+	            return false;
 	        }
 	        if (postiPrenotati <= 0) {
-	            System.out.println("Impossibile disdire la prenotazione, non ci sono prenotazioni da disdire.");
-	            return;
+	            System.err.println("Impossibile disdire la prenotazione, non ci sono prenotazioni da disdire.");
+	            return false;
 	        }
 	        postiPrenotati--;
+	        return true;
 	    }
 	  
 	  @Override
